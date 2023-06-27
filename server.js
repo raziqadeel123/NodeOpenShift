@@ -1,5 +1,5 @@
 import express from 'express';
-
+import fs from 'fs';
 const app = express();
 
 // Set the Server Port
@@ -15,7 +15,12 @@ const server = app.listen(PORT, () => {
 // GET STATUS ENDPOINT
 
 app.get('/', (req, res) => {
-  res.send('Our Server is up and running');
+  res.writeHead(200, { 'content-type': 'text/html' });
+  fs.createReadStream('index.html').pipe(res);
+});
+
+app.get('/*', (req, res) => {
+  res.send('404, page not found!');
 });
 
 app.get('/date', (req, res) => {
